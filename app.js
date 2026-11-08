@@ -7,7 +7,16 @@
   'use strict';
 
   const categories = window.PORTFOLIO_CATEGORIES || [];
-  const projects = window.PORTFOLIO_DATA || [];
+  let projects = window.PORTFOLIO_DATA || [];
+  try {
+    const previewOverride = localStorage.getItem('NV_CMS_PREVIEW_DATA');
+    if (previewOverride) {
+      const parsed = JSON.parse(previewOverride);
+      if (Array.isArray(parsed) && parsed.length) {
+        projects = parsed;
+      }
+    }
+  } catch (_) {}
 
   let lenis = null;
   let activeCategory = 'all';
@@ -488,7 +497,7 @@
               <!-- Running Header Architettonico -->
               <div class="project-running-head">
                 <div class="head-left">
-                  <span class="seq-pill">OPERA ${p.sequenceNum} / 25</span>
+                  <span class="seq-pill">OPERA ${p.sequenceNum} / ${projects.length}</span>
                   <span>COD. ARCHIVIO: ${p.code}</span>
                   <span>${p.categoryLabel}</span>
                 </div>

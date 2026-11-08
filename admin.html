@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ADMIN STUDIO CMS — Nicola Vianello Portfolio (Vol. A + B)</title>
+
+  <!-- Google Fonts (le stesse 7 famiglie del Portfolio per anteprima fedele) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=IBM+Plex+Mono:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,700;0,800;1,400;1,700&family=Space+Grotesk:wght@300;400;500;600;700&family=Syne:wght@600;700;800&family=Unbounded:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+
+  <!-- ========================================================================
+       TOP COMMAND BAR (STUDIO CMS HEADER)
+       ======================================================================== -->
+  <header class="cms-topbar">
+    <div class="cms-brand">
+      <div class="cms-logo-box">NV</div>
+      <div class="cms-brand-text">
+        <strong>STUDIO CURATORIAL CMS</strong>
+        <span id="server-status-badge" class="status-badge checking">● VERIFICA CONNESSIONE...</span>
+      </div>
+    </div>
+
+    <div class="cms-search-bar">
+      <input type="search" id="cms-search-input" placeholder="Cerca progetto per titolo, codice (es. A-01, B-05) o cliente...">
+      <select id="cms-cat-filter" aria-label="Filtra per categoria">
+        <option value="all">TUTTE LE CATEGORIE (25)</option>
+      </select>
+    </div>
+
+    <div class="cms-actions">
+      <button class="cms-btn cms-btn-outline" id="btn-open-media" title="Gestisci e carica immagini nella cartella del progetto">
+        <span>🖼 MEDIA &amp; UPLOAD</span>
+      </button>
+      <button class="cms-btn cms-btn-outline" id="btn-new-project" title="Crea un nuovo progetto nel Portfolio">
+        <span>＋ NUOVO PROGETTO</span>
+      </button>
+      <button class="cms-btn cms-btn-primary" id="btn-save-all" title="Salva tutte le modifiche in projects-data.js (Cmd/Ctrl + S)">
+        <span>💾 SALVA MODIFICHE</span>
+      </button>
+      <button class="cms-btn cms-btn-github" id="btn-git-push" title="Esegui commit e push diretto sul tuo repository GitHub">
+        <span>☁ PUBBLICA SU GITHUB</span>
+      </button>
+      <a href="index.html" target="_blank" class="cms-btn cms-btn-live" title="Apri il Portfolio pubblico in una nuova scheda">
+        <span>👁 SITO LIVE ↗</span>
+      </a>
+    </div>
+  </header>
+
+  <!-- ========================================================================
+       3-COLUMN STUDIO WORKSPACE
+       ======================================================================== -->
+  <div class="cms-workspace">
+
+    <!-- ======================================================================
+         COLONNA 1 (SX): LISTA E SEQUENZA CURATORIALE DEI PROGETTI
+         ====================================================================== -->
+    <aside class="cms-sidebar-list">
+      <div class="sidebar-list-header">
+        <div>
+          <span class="kicker">SEQUENZA NARRATIVA</span>
+          <h2 id="sidebar-total-count">25 PROGETTI</h2>
+        </div>
+        <button class="cms-mini-btn" id="btn-export-js" title="Scarica manualmente il file projects-data.js">
+          <span>⬇ ESPORTA .JS</span>
+        </button>
+      </div>
+
+      <div class="project-list-scroll" id="cms-project-list">
+        <!-- Popolato dinamicamente da admin.js -->
+      </div>
+    </aside>
+
+    <!-- ======================================================================
+         COLONNA 2 (CENTRO): EDITOR DEL PROGETTO SELEZIONATO
+         ====================================================================== -->
+    <main class="cms-editor-pane">
+      <!-- Intestazione Progetto Attivo + Azioni Rapide -->
+      <div class="editor-project-bar">
+        <div class="editor-active-title">
+          <span class="active-seq-badge" id="ed-header-seq">SEQ. 01</span>
+          <span class="active-code-badge" id="ed-header-code">A-01</span>
+          <h1 id="ed-header-title">ANATOMY OF RED</h1>
+        </div>
+        <div class="editor-project-actions">
+          <button class="cms-mini-btn" id="btn-move-up" title="Sposta più in alto nella sequenza">↑ SU</button>
+          <button class="cms-mini-btn" id="btn-move-down" title="Sposta più in basso nella sequenza">↓ GIÙ</button>
+          <button class="cms-mini-btn" id="btn-duplicate-project" title="Duplica questo progetto">⧉ DUPLICA</button>
+          <button class="cms-mini-btn danger" id="btn-delete-project" title="Elimina questo progetto">✕ ELIMINA</button>
+        </div>
+      </div>
+
+      <!-- Navigazione a Schede dell'Editor -->
+      <nav class="editor-tabs" role="tablist">
+        <button class="editor-tab active" data-tab="tab-identity">01 // TESTI, IDENTITÀ &amp; SPECIFICHE</button>
+        <button class="editor-tab" data-tab="tab-slices">02 // IMMAGINI &amp; SMART-SLICING (<span id="tab-slices-count">4</span>)</button>
+        <button class="editor-tab" data-tab="tab-itten">03 // PALETTE &amp; GRIGLIA DI ITTEN</button>
+        <button class="editor-tab" data-tab="tab-artdirection">04 // MOCKUP 3D, FONT &amp; EFFETTI</button>
+      </nav>
+
+      <!-- Contenuto Scorrevole delle Schede -->
+      <div class="editor-panels-scroll">
+
+        <!-- ==================================================================
+             TAB 01: IDENTITÀ, TESTI CURATORIALI & TABELLA SPECIFICHE
+             ================================================================== -->
+        <section class="editor-panel active" id="tab-identity">
+          <div class="form-section-card">
+            <div class="card-section-head">
+              <h3>IDENTITÀ &amp; CLASSIFICAZIONE ARCHIVIO</h3>
+              <span>Dati primari visibili nell’Indice Ragionato e nell’Header della sezione</span>
+            </div>
+
+            <div class="form-grid-3">
+              <div class="form-group">
+                <label for="inp-code">CODICE TAVOLA / ARCHIVIO</label>
+                <input type="text" id="inp-code" placeholder="es. A-01, B-11, C-01">
+              </div>
+              <div class="form-group">
+                <label for="inp-id">ID UNIVOCO (SLUG URL)</label>
+                <input type="text" id="inp-id" placeholder="es. anatomy-of-red">
+              </div>
+              <div class="form-group">
+                <label for="inp-category">MACRO-CATEGORIA (FILTRO)</label>
+                <select id="inp-category">
+                  <option value="brand">01 // BRAND &amp; VISUAL IDENTITY</option>
+                  <option value="editorial">02 // EDITORIAL, ZINE &amp; GLITCH ART</option>
+                  <option value="packaging">03 // PACKAGING &amp; LABEL SYSTEMS</option>
+                  <option value="poster">04 // POSTER &amp; CULTURAL CAMPAIGNS</option>
+                  <option value="digital">05 // DIGITAL, UI &amp; MOTION</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-grid-2">
+              <div class="form-group">
+                <label for="inp-title">TITOLO DEL PROGETTO (DISPLAY)</label>
+                <input type="text" id="inp-title" placeholder="es. ANATOMY OF RED">
+              </div>
+              <div class="form-group">
+                <label for="inp-subtitle">SOTTOTITOLO TECNICO / DESCRITTIVO</label>
+                <input type="text" id="inp-subtitle" placeholder="es. Psicologia Percettiva & Incisione Calcografica">
+              </div>
+            </div>
+
+            <div class="form-grid-3">
+              <div class="form-group">
+                <label for="inp-year">ANNO &amp; CONTESTO</label>
+                <input type="text" id="inp-year" placeholder="es. 2026 // BRANDING">
+              </div>
+              <div class="form-group">
+                <label for="inp-client">CLIENTE / ENTE / LUOGO</label>
+                <input type="text" id="inp-client" placeholder="es. Comune di Venezia">
+              </div>
+              <div class="form-group">
+                <label for="inp-density">RITMO / DENSITÀ VISIVA</label>
+                <select id="inp-density">
+                  <option value="high">Alta Densità Visiva (Glitch, Illustrazione, Multi-Elemento)</option>
+                  <option value="minimal">Respiro Minimale / Tipografico / Architettonico</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <!-- Testo Curatoriale -->
+          <div class="form-section-card">
+            <div class="card-section-head">
+              <h3>TESTO CURATORIALE DELLO STUDIO</h3>
+              <span id="word-count-badge" class="word-badge">0 parole (Target consigliato: 30–45 parole)</span>
+            </div>
+            <div class="form-group">
+              <textarea id="inp-curatorial-copy" rows="4" placeholder="Descrivi il concept progettuale, la sintesi visiva e le tecniche adottate..."></textarea>
+            </div>
+          </div>
+
+          <!-- Griglia Specifiche Tecniche (4 celle) -->
+          <div class="form-section-card">
+            <div class="card-section-head">
+              <div>
+                <h3>GRIGLIA SPECIFICHE TECNICHE (META-GRID)</h3>
+                <span>Le 4 voci visualizzate nella tabella tratteggiata della sezione progetto</span>
+              </div>
+              <button class="cms-mini-btn" id="btn-add-spec">＋ AGGIUNGI VOCE</button>
+            </div>
+
+            <div class="specs-editor-list" id="specs-editor-list">
+              <!-- Popolato da admin.js -->
+            </div>
+          </div>
+        </section>
+
+        <!-- ==================================================================
+             TAB 02: IMMAGINI, UPLOAD & SMART-SLICING DELLE TAVOLE
+             ================================================================== -->
+        <section class="editor-panel" id="tab-slices">
+          <div class="form-section-card">
+            <div class="card-section-head">
+              <div>
+                <h3>TAVOLA IMMAGINE PRINCIPALE</h3>
+                <span>Scegli un’immagine esistente o carica una nuova tavola ad alta risoluzione dal tuo Mac</span>
+              </div>
+              <label class="cms-btn cms-btn-primary upload-label-btn">
+                <span>⬆ CARICA NUOVA IMMAGINE</span>
+                <input type="file" id="inp-quick-upload" accept="image/*" hidden>
+              </label>
+            </div>
+
+            <div class="form-grid-2">
+              <div class="form-group">
+                <label for="inp-primary-image">FILE TAVOLA PRINCIPALE (PRIMARY IMAGE)</label>
+                <select id="inp-primary-image"></select>
+              </div>
+              <div class="form-group">
+                <label>GENERAZIONE AUTOMATICA FINESTRE DI RITAGLIO</label>
+                <div class="inline-btn-row">
+                  <button class="cms-mini-btn" id="btn-auto-slice-3">⚡ AUTO-SLICE (3 FINESTRE)</button>
+                  <button class="cms-mini-btn" id="btn-auto-slice-4">⚡ AUTO-SLICE (4 FINESTRE)</button>
+                  <button class="cms-mini-btn accent" id="btn-add-slice">＋ NUOVA FINESTRA (.VIEWPORT-SLICE)</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Lista delle Finestre .viewport-slice -->
+          <div class="form-section-card">
+            <div class="card-section-head">
+              <div>
+                <h3>FINESTRE DI RITAGLIO (.VIEWPORT-SLICE)</h3>
+                <span>Clicca su una finestra qui sotto e usa il <strong>Mirino Visuale sulla destra</strong> per inquadrare il dettaglio esatto della tavola!</span>
+              </div>
+            </div>
+
+            <div class="slices-editor-container" id="slices-editor-container">
+              <!-- Popolato dinamicamente da admin.js -->
+            </div>
+          </div>
+        </section>
+
+        <!-- ==================================================================
+             TAB 03: PALETTE CROMATICA & GRIGLIA DEI CONTRASTI DI ITTEN
+             ================================================================== -->
+        <section class="editor-panel" id="tab-itten">
+          <div class="form-section-card">
+            <div class="card-section-head">
+              <div>
+                <h3>MOTORE CROMATICO DI JOHANNES ITTEN</h3>
+                <span>Configura i colori che trasformano lo sfondo della pagina quando si scorre su questo progetto</span>
+              </div>
+              <div class="inline-btn-row">
+                <button class="cms-mini-btn" id="btn-extract-palette" title="Estrai i colori dominanti direttamente dalla tavola immagine">
+                  🎨 ESTRAI DALL’IMMAGINE
+                </button>
+                <button class="cms-mini-btn accent" id="btn-auto-itten" title="Calcola automaticamente il complementare di Itten e lo sfondo ottimale">
+                  🔄 AUTO-CALCOLA ARMONIA DI ITTEN
+                </button>
+              </div>
+            </div>
+
+            <!-- Palette estratta dall'immagine (visibile quando si clicca Estrai) -->
+            <div id="extracted-palette-bar" class="extracted-palette-bar" hidden>
+              <span class="kicker">COLORI RILEVATI NELLA TAVOLA (CLICCA PER IMPOSTARE COME PRIMARIO):</span>
+              <div id="extracted-swatches" class="extracted-swatches"></div>
+            </div>
+
+            <div class="color-pickers-grid">
+              <div class="color-field-card">
+                <label>COLORE PRIMARIO OPERA</label>
+                <div class="color-input-wrap">
+                  <input type="color" id="col-primary-picker">
+                  <input type="text" id="inp-color-primary" placeholder="#FF2400">
+                </div>
+                <input type="text" id="inp-primary-name" class="color-name-inp" placeholder="Nome (es. PANTONE Bright Red U)">
+              </div>
+
+              <div class="color-field-card">
+                <label>SECONDO COLORE / COMPLEMENTARE</label>
+                <div class="color-input-wrap">
+                  <input type="color" id="col-secondary-picker">
+                  <input type="text" id="inp-color-secondary" placeholder="#092622">
+                </div>
+                <input type="text" id="inp-secondary-name" class="color-name-inp" placeholder="Nome (es. Deep Petrol Green)">
+              </div>
+
+              <div class="color-field-card">
+                <label>SFONDO SEZIONE (CHAMELEON BG)</label>
+                <div class="color-input-wrap">
+                  <input type="color" id="col-bg-picker">
+                  <input type="text" id="inp-color-bg" placeholder="#092622">
+                </div>
+                <div class="quick-bg-presets">
+                  <button type="button" data-set-bg="#0D0D0D" data-set-text="#FFFFFF">Off-Black</button>
+                  <button type="button" data-set-bg="#FFFFFF" data-set-text="#0D0D0D">Gallery White</button>
+                  <button type="button" data-set-bg="#F4F1EA" data-set-text="#141413">Warm Paper</button>
+                  <button type="button" id="btn-bg-from-secondary">Usa Complementare</button>
+                </div>
+              </div>
+
+              <div class="color-field-card">
+                <label>COLORE TESTO &amp; ACCENTO UI</label>
+                <div class="color-input-wrap">
+                  <input type="color" id="col-text-picker" title="Colore Testo">
+                  <input type="text" id="inp-color-text" placeholder="#F4F6F5" title="HEX Testo">
+                </div>
+                <div class="color-input-wrap" style="margin-top: 6px;">
+                  <input type="color" id="col-accent-picker" title="Colore Accento">
+                  <input type="text" id="inp-color-accent" placeholder="#FF2400" title="HEX Accento">
+                </div>
+              </div>
+            </div>
+
+            <div class="form-grid-1" style="margin-top: 18px;">
+              <div class="form-group">
+                <label for="inp-contrast-type">LEGGE DI CONTRASTO DI ITTEN APPLICATA</label>
+                <input type="text" id="inp-contrast-type" placeholder="es. Contrasto dei Complementari (Rosso Fuoco ↔ Verde Petrolio)">
+                <div class="preset-chips-row">
+                  <button type="button" class="chip-preset" data-contrast-preset="Contrasto dei Complementari">Complementari</button>
+                  <button type="button" class="chip-preset" data-contrast-preset="Contrasto Caldo-Freddo">Caldo-Freddo</button>
+                  <button type="button" class="chip-preset" data-contrast-preset="Contrasto Chiaro-Scuro">Chiaro-Scuro</button>
+                  <button type="button" class="chip-preset" data-contrast-preset="Contrasto di Quantità">Quantità</button>
+                  <button type="button" class="chip-preset" data-contrast-preset="Contrasto di Qualità">Qualità</button>
+                  <button type="button" class="chip-preset" data-contrast-preset="Contrasto Simultaneo">Simultaneo</button>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="inp-itten-note">NOTA DI DIREZIONE ARTISTICA CROMATICA</label>
+                <textarea id="inp-itten-note" rows="3" placeholder="Spiega perché questo abbinamento cromatico valorizza percettivamente la tavola..."></textarea>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ==================================================================
+             TAB 04: ARCHETIPI MOCKUP 3D IN CODICE, TIPOGRAFIA & INTERAZIONI
+             ================================================================== -->
+        <section class="editor-panel" id="tab-artdirection">
+          <div class="form-section-card">
+            <div class="card-section-head">
+              <h3>ARCHETIPO MOCKUP CHIRURGICO IN CODICE CSS3 (FASE 3)</h3>
+              <span>Scegli quale struttura tridimensionale avvolge le tavole del progetto</span>
+            </div>
+
+            <div class="archetype-cards-grid" id="archetype-selector">
+              <label class="archetype-option">
+                <input type="radio" name="mockupType" value="poster-3d">
+                <div class="arch-box">
+                  <strong>01 // POSTER FRAME 3D + STICKY HERO</strong>
+                  <span>Cornice 3D interattiva con mollette metalliche, pieghe di stampa, texture carta SVG e riflesso glare al mouse.</span>
+                </div>
+              </label>
+
+              <label class="archetype-option">
+                <input type="radio" name="mockupType" value="brand-bento">
+                <div class="arch-box">
+                  <strong>02 // BRAND SYSTEM BENTO SHOWCASE</strong>
+                  <span>Biglietto da visita in carta cotone 600g con effetto deboss + Brand Guidelines Card con provini Pantone e font live.</span>
+                </div>
+              </label>
+
+              <label class="archetype-option">
+                <input type="radio" name="mockupType" value="browser-kiosk">
+                <div class="arch-box">
+                  <strong>03 // DARK GLASS BROWSER + TOTEM 3D</strong>
+                  <span>Browser minimale in vetro scuro con auto-scroll della pagina web all’hover + Totem Kiosk inclinato nello spazio 3D.</span>
+                </div>
+              </label>
+
+              <label class="archetype-option">
+                <input type="radio" name="mockupType" value="editorial-spread">
+                <div class="arch-box">
+                  <strong>04 // 3D EDITORIAL BOOK SPREAD</strong>
+                  <span>Doppia pagina aperta con ombra di rilegatura centrale (spine-shadow) e animazione prospettica di apertura allo scroll.</span>
+                </div>
+              </label>
+
+              <label class="archetype-option">
+                <input type="radio" name="mockupType" value="packaging-lineup">
+                <div class="arch-box">
+                  <strong>05 // HORIZONTAL SCROLL PIN LINEUP</strong>
+                  <span>Galleria orizzontale bloccata durante lo scroll verticale per far sfilare bottiglie, etichette e confezioni.</span>
+                </div>
+              </label>
+            </div>
+          </div>
+
+          <div class="form-section-card">
+            <div class="card-section-head">
+              <h3>COPPIA TIPOGRAFICA GOOGLE FONTS &amp; MICRO-INTERAZIONE</h3>
+              <span>Ogni sezione cambia coppia tipografica e comportamento interattivo</span>
+            </div>
+
+            <div class="form-grid-2">
+              <div class="form-group">
+                <label for="inp-font-preset">COPPIA TIPOGRAFICA (DISPLAY + BODY)</label>
+                <select id="inp-font-preset">
+                  <option value="syne-mono">Syne ExtraBold + IBM Plex Mono (Brutalista / Tecnico)</option>
+                  <option value="syne-inter">Syne Bold + Inter (Contemporaneo / Editoriale)</option>
+                  <option value="syne-space">Syne Bold + Space Grotesk (Poster / Cultura)</option>
+                  <option value="unbounded-mono">Unbounded Black + IBM Plex Mono (Glitch / Techno / Zine)</option>
+                  <option value="unbounded-space">Unbounded Bold + Space Grotesk (Futurista / Automotive UI)</option>
+                  <option value="cormorant-space">Cormorant Garamond + Space Grotesk (Veneziano / Storico)</option>
+                  <option value="cormorant-mono">Cormorant Garamond + IBM Plex Mono (Luxury Wine / Tipografia)</option>
+                  <option value="cormorant-inter">Cormorant Garamond + Inter (Interior / Heritage)</option>
+                  <option value="playfair-inter">Playfair Display + Inter (Architettura / Editoriale Classico)</option>
+                  <option value="playfair-space">Playfair Display + Space Grotesk (Manifesto / Food &amp; Wine)</option>
+                  <option value="space-inter">Space Grotesk + Inter (Minimal / Eco Brand)</option>
+                  <option value="space-mono">Space Grotesk + IBM Plex Mono (Data Visualization / Mappe)</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="inp-special-interaction">MICRO-INTERAZIONE SPECIFICA (FASE 4)</label>
+                <select id="inp-special-interaction">
+                  <option value="venetian-sticky">Sticky Hero + Ombre Brutaliste Dinamiche</option>
+                  <option value="glitch-rgb">RGB Split Chromatic Aberration + Text Scramble</option>
+                  <option value="soundwave-reactive">Visualizzatore Onda Sonora SVG Reattivo allo Scroll</option>
+                  <option value="horizontal-pin">Horizontal Scroll Pin (Sfilata Prodotti)</option>
+                  <option value="book-spread">Apertura Prospettica 3D Doppia Pagina</option>
+                  <option value="ui-showcase">Interactive Web UI Auto-Scroll Showcase</option>
+                  <option value="brand-system">Sistema Identità &amp; Deboss Showcase</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </section>
+
+      </div>
+    </main>
+
+    <!-- ======================================================================
+         COLONNA 3 (DX): VISUAL SMART-SLICING PICKER & ANTEPRIMA SEZIONE LIVE
+         ====================================================================== -->
+    <aside class="cms-inspector-pane">
+      <!-- Blocco Superiore: Mirino Interattivo sulla Tavola Completa -->
+      <div class="inspector-block">
+        <div class="inspector-head">
+          <div>
+            <span class="kicker">SMART-SLICING VISUAL PICKER</span>
+            <h3 id="inspector-slice-title">FINESTRA #01 (CLICCA SULLA TAVOLA)</h3>
+          </div>
+          <span class="coord-pill" id="inspector-coord-readout">50% 4%</span>
+        </div>
+
+        <div class="visual-slicer-workspace">
+          <!-- Colonna Sinistra del Mirino: Tavola Intera Verticale Cliccabile -->
+          <div class="fullboard-picker-wrap" id="fullboard-picker-wrap" title="Clicca o trascina per spostare il punto di fuoco della finestra attiva">
+            <img id="picker-board-img" src="Portfolio A-01.jpg" alt="Full Board Picker" draggable="false">
+            <div class="picker-crosshair" id="picker-crosshair">
+              <span class="crosshair-ring"></span>
+            </div>
+          </div>
+
+          <!-- Colonna Destra del Mirino: Risultato Live della .viewport-slice -->
+          <div class="slice-live-result-col">
+            <div class="kicker" style="margin-bottom:6px;">ANTEPRIMA RITAGLIO (.VIEWPORT-SLICE):</div>
+            <div class="live-slice-box" id="live-slice-box">
+              <img id="live-slice-img" src="Portfolio A-01.jpg" alt="Slice Live Preview">
+            </div>
+            <div class="live-slice-caption" id="live-slice-caption">01 // TAVOLA ANATOMICA</div>
+
+            <div class="quick-zoom-control">
+              <label for="inspector-zoom-slider">ZOOM RITAGLIO (<span id="inspector-zoom-val">1.02x</span>)</label>
+              <input type="range" id="inspector-zoom-slider" min="1" max="2.4" step="0.02" value="1.02">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Blocco Inferiore: Anteprima Cromatica e Tipografica della Sezione -->
+      <div class="inspector-block">
+        <div class="inspector-head">
+          <span class="kicker">ANTEPRIMA LIVE ATMOSFERA &amp; ITTEN</span>
+          <span class="coord-pill" id="preview-archetype-tag">POSTER-3D</span>
+        </div>
+
+        <div class="live-section-mini-card" id="live-section-mini-card">
+          <div class="mini-running-head">
+            <span id="mini-seq-code">OPERA 01 // A-01</span>
+            <span id="mini-cat">04 // POSTER</span>
+          </div>
+          <div class="mini-itten-pill">
+            <span class="mini-dot" id="mini-dot-1"></span>
+            <span class="mini-dot" id="mini-dot-2"></span>
+            <span id="mini-contrast-text">Contrasto di Itten</span>
+          </div>
+          <h4 id="mini-title">ANATOMY OF RED</h4>
+          <p id="mini-subtitle">Psicologia Percettiva &amp; Incisione Calcografica</p>
+          <p id="mini-copy" class="mini-copy-text"></p>
+        </div>
+      </div>
+    </aside>
+
+  </div>
+
+  <!-- ========================================================================
+       DRAWER / MODAL: LIBRERIA MEDIA & DRAG-AND-DROP IMAGE UPLOADER
+       ======================================================================== -->
+  <div class="cms-modal" id="media-modal" aria-hidden="true">
+    <div class="cms-modal-backdrop" id="media-modal-backdrop"></div>
+    <div class="cms-modal-box">
+      <div class="cms-modal-header">
+        <div>
+          <span class="kicker">ASSET MANAGER // CARTELLA GRAFICA</span>
+          <h2>LIBRERIA TAVOLE &amp; CARICAMENTO IMMAGINI</h2>
+        </div>
+        <button class="cms-mini-btn" id="btn-close-media">✕ CHIUDI</button>
+      </div>
+
+      <div class="cms-modal-body">
+        <!-- Dropzone Upload -->
+        <label class="upload-dropzone" id="upload-dropzone">
+          <input type="file" id="inp-multi-upload" accept="image/*" multiple hidden>
+          <div class="dropzone-content">
+            <span class="dropzone-icon">⬆</span>
+            <strong>TRASCINA QUI LE NUOVE TAVOLE (.JPG, .PNG, .WEBP) O CLICCA PER SELEZIONARLE</strong>
+            <span>I file verranno salvati direttamente nella cartella del progetto e saranno subito utilizzabili nei progetti.</span>
+          </div>
+        </label>
+
+        <!-- Griglia Immagini Presenti -->
+        <div class="media-grid" id="media-library-grid">
+          <!-- Popolato da admin.js -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Notifica Toast -->
+  <div id="cms-toast" class="cms-toast" aria-live="polite"></div>
+
+  <!-- Canvas invisibile per estrazione automatica palette colore dalle tavole -->
+  <canvas id="palette-canvas" width="120" height="120" hidden></canvas>
+
+  <!-- Carica il database attuale come fallback immediato + motore Admin -->
+  <script src="projects-data.js"></script>
+  <script src="admin.js"></script>
+</body>
+</html>
