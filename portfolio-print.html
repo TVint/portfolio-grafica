@@ -1,0 +1,1060 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<title>NICOLA VIANELLO — Selected Works & Archive Monograph</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,300;0,400;0,600;1,400&family=Syne:wght@600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+  /* ==========================================================================
+     1. SETUP DI STAMPA AD ALTA RISOLUZIONE (DOPPIA PAGINA / SPREAD 420x210mm)
+     ========================================================================== */
+  @page {
+    size: 420mm 210mm;
+    margin: 0;
+  }
+
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  :root {
+    --font-display: 'Syne', sans-serif;
+    --font-sans: 'Inter', sans-serif;
+    --font-mono: 'IBM Plex Mono', monospace;
+
+    /* Palette Calibrata sulla Griglia di Itten */
+    --ink-black: #0D0D0D;
+    --pure-white: #FFFFFF;
+    --warm-paper: #F4F1EA;
+    
+    /* A-01 Anatomy of Red: Rosso Fuoco vs Verde Petrolio (Complementare) */
+    --itten-red: #FF2400;
+    --itten-petrol: #092622;
+
+    /* A-07 ZZZ Mag: Arancio Circuito vs Blu Ottanio Profondo (Complementare) */
+    --itten-circuit: #E63B19;
+    --itten-navy: #0A1628;
+
+    /* A-06 BLM 99: Monocromo Xilografico vs Giallo Acido Segnale */
+    --itten-acid: #E5FF00;
+
+    /* A-09 MOTM: Verde Acqua Techno vs Corallo Ruggine (Complementare) */
+    --itten-techno-teal: #3AA694;
+    --itten-Berlin-dark: #141616;
+    --itten-coral: #D94E34;
+
+    /* A-02 Blue Bee: Giallo Poster vs Viola Indaco (Complementare puro) */
+    --itten-bee-yellow: #E6D246;
+    --itten-indigo: #1D1128;
+
+    /* A-03 / A-04 Packaging: Verde Salvia & Terracotta */
+    --itten-sage: #24332C;
+    --itten-crimson: #6E1418;
+  }
+
+  body {
+    background-color: #222;
+    font-family: var(--font-sans);
+    color: var(--ink-black);
+  }
+
+  /* Contenitore Doppia Pagina (Spread) */
+  .spread {
+    width: 420mm;
+    height: 210mm;
+    display: grid;
+    grid-template-columns: 210mm 210mm;
+    position: relative;
+    page-break-after: always;
+    break-after: page;
+    overflow: hidden;
+    background: var(--pure-white);
+  }
+
+  /* Simulazione piega centrale di rilegatura + crocini editoriali */
+  .spread::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 210mm;
+    width: 0.25mm;
+    background: rgba(128, 128, 128, 0.35);
+    z-index: 100;
+  }
+
+  /* Singola facciata (Sinistra = Verso, Destra = Recto) */
+  .page {
+    width: 210mm;
+    height: 210mm;
+    padding: 14mm 16mm;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    overflow: hidden;
+  }
+
+  /* ==========================================================================
+     2. ELEMENTI ARCHITETTONICI FISSI (RUNNING HEADERS, FOLIO, THUMB INDEX)
+     ========================================================================== */
+  .running-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: var(--font-mono);
+    font-size: 6.5pt;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding-bottom: 3mm;
+    border-bottom: 0.25mm solid currentColor;
+    opacity: 0.85;
+    z-index: 10;
+  }
+
+  .running-foot {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    font-family: var(--font-mono);
+    font-size: 6.5pt;
+    letter-spacing: 0.08em;
+    padding-top: 3mm;
+    border-top: 0.25mm solid currentColor;
+    opacity: 0.85;
+    z-index: 10;
+  }
+
+  /* Tacca Laterale al Vivo (Thumb Index delle Categorie) */
+  .thumb-tab {
+    position: absolute;
+    right: 0;
+    width: 5.5mm;
+    height: 32mm;
+    background: var(--ink-black);
+    color: var(--pure-white);
+    font-family: var(--font-mono);
+    font-size: 5.5pt;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 50;
+  }
+  .tab-pos-1 { top: 20mm; } /* 01 EDITORIAL & POSTER */
+  .tab-pos-2 { top: 55mm; } /* 02 ZINE & GLITCH ART */
+  .tab-pos-3 { top: 90mm; } /* 03 BRAND & CULTURAL ID */
+  .tab-pos-4 { top: 125mm; } /* 04 PACKAGING & LABEL */
+  .tab-pos-5 { top: 160mm; } /* 05 EVENT & CAMPAIGN */
+
+  /* ==========================================================================
+     3. SISTEMA DI SMART-CROPPING DELLE TAVOLE VERTICALI
+     ========================================================================== */
+  .crop-box {
+    position: relative;
+    overflow: hidden;
+    background: #eaeaea;
+    border: 0.2mm solid rgba(128,128,128,0.2);
+  }
+
+  .crop-box img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  /* Posizionamenti chirurgici per estrarre sezioni diverse dalla stessa tavola */
+  .pos-top    img { object-position: center 0%; }
+  .pos-upper  img { object-position: center 24%; }
+  .pos-mid    img { object-position: center 50%; }
+  .pos-lower  img { object-position: center 75%; }
+  .pos-bottom img { object-position: center 100%; }
+  .pos-contain img { object-fit: contain; background: #fff; padding: 3mm; }
+
+  /* ==========================================================================
+     4. TIPOGRAFIA E GRIGLIE INTERNE
+     ========================================================================== */
+  h1.giant-title {
+    font-family: var(--font-display);
+    font-size: 32pt;
+    line-height: 0.92;
+    letter-spacing: -0.03em;
+    text-transform: uppercase;
+    margin-bottom: 4mm;
+  }
+
+  h2.project-title {
+    font-family: var(--font-display);
+    font-size: 20pt;
+    line-height: 0.98;
+    letter-spacing: -0.02em;
+    text-transform: uppercase;
+    margin-bottom: 2.5mm;
+  }
+
+  .meta-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2.5mm;
+    font-family: var(--font-mono);
+    font-size: 6.5pt;
+    margin: 3mm 0;
+    padding: 2.5mm 0;
+    border-top: 0.2mm dashed currentColor;
+    border-bottom: 0.2mm dashed currentColor;
+  }
+
+  .meta-item span {
+    display: block;
+    opacity: 0.6;
+    font-size: 5.5pt;
+    text-transform: uppercase;
+  }
+
+  .editorial-copy {
+    font-size: 8.2pt;
+    line-height: 1.48;
+    font-weight: 400;
+    text-align: justify;
+  }
+
+  /* Swatch di Itten (Micro-legenda colore in ogni pagina) */
+  .itten-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 2mm;
+    font-family: var(--font-mono);
+    font-size: 5.8pt;
+    padding: 1.2mm 2.5mm;
+    border: 0.2mm solid currentColor;
+    border-radius: 20px;
+  }
+  .swatch-dot {
+    width: 2.8mm;
+    height: 2.8mm;
+    border-radius: 50%;
+    display: inline-block;
+    border: 0.15mm solid rgba(255,255,255,0.5);
+  }
+
+  /* Modalità Testo Chiaro su Sfondi Colorati Pieni */
+  .theme-dark {
+    color: var(--pure-white);
+  }
+  .theme-dark .crop-box {
+    border-color: rgba(255,255,255,0.2);
+  }
+
+  @media screen {
+    body {
+      padding: 20px 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 25px;
+    }
+    .spread {
+      box-shadow: 0 20px 50px rgba(0,0,0,0.6);
+    }
+  }
+</style>
+</head>
+<body>
+
+<!-- ==========================================================================
+     SPREAD 01: SECONDA DI COPERTINA / STATEMENT (SX) + FRONTESPIZIO & INDICE (DX)
+     ========================================================================== -->
+<section class="spread">
+  <!-- PAGINA 01 (SX): Sfondo Nero Pieno Architetturale -->
+  <div class="page theme-dark" style="background: var(--ink-black);">
+    <div class="running-head">
+      <span>NICOLA VIANELLO — ARCHIVE MONOGRAPH</span>
+      <span>VOL. I // ACADEMIC & R&D WORKS</span>
+    </div>
+
+    <div style="margin: auto 0;">
+      <div style="font-family: var(--font-mono); font-size: 7.5pt; color: var(--itten-acid); margin-bottom: 4mm; letter-spacing: 0.15em;">
+        [ CURATORIAL STATEMENT // 15 YEARS OF VISUAL RESEARCH ]
+      </div>
+      <h1 class="giant-title" style="font-size: 38pt; color: var(--pure-white);">
+        ARCHIVIO<br>MATERICO &<br>SISTEMI<br><span style="color: var(--itten-acid);">VISIVI.</span>
+      </h1>
+      <p class="editorial-copy" style="max-width: 135mm; color: #ccc; margin-top: 6mm; font-size: 8.8pt;">
+        Questa sezione raccoglie i progetti di fondazione e ricerca sperimentale sviluppati presso la Scuola Internazionale di Grafica di Venezia e in contesti editoriali indipendenti. Dal databending analogico-digitale alla tipografia xilografica veneziana, ogni tavola indaga il rapporto tra segno, supporto fisico e percezione cromatica secondo i contrasti percettivi di Johannes Itten.
+      </p>
+    </div>
+
+    <div class="running-foot">
+      <span>VENETO / VENEZIA — ITALIA</span>
+      <span>[ PAG. 01 ]</span>
+    </div>
+  </div>
+
+  <!-- PAGINA 02 (DX): Bianco Puro — Indice Generale + Matrice Cromatica di Itten -->
+  <div class="page" style="background: var(--pure-white);">
+    <div class="running-head">
+      <span>INDEX OF SELECTED WORKS</span>
+      <span>CHROMATIC SYSTEM: ITTEN CONTRASTS</span>
+    </div>
+
+    <div style="margin: auto 0;">
+      <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 5mm;">
+        <div>
+          <span style="font-family: var(--font-mono); font-size: 6.5pt; opacity: 0.6;">PORTFOLIO STRUCTURE</span>
+          <h2 class="project-title" style="margin-bottom: 0;">INDICE RAGIONATO & CODIFICA COLORE</h2>
+        </div>
+        <span class="itten-badge">10 PROGETTI INTEGRALI</span>
+      </div>
+
+      <!-- Tabella Indice Editoriale -->
+      <table style="width: 100%; border-collapse: collapse; font-family: var(--font-mono); font-size: 7pt;">
+        <thead>
+          <tr style="border-bottom: 0.4mm solid #000; text-align: left;">
+            <th style="padding: 2mm 0;">COD.</th>
+            <th>PROGETTO</th>
+            <th>CATEGORIA</th>
+            <th>CONTRASTO DI ITTEN APPLICATO</th>
+            <th style="text-align: right;">PAG.</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="border-bottom: 0.15mm solid #ddd;">
+            <td style="padding: 2.2mm 0; font-weight: 600;">A-01</td>
+            <td><strong>ANATOMY OF RED</strong></td>
+            <td>01 / Poster & Concept</td>
+            <td><span class="swatch-dot" style="background:#FF2400;"></span><span class="swatch-dot" style="background:#092622;"></span> Complementare (Rosso / Petrolio)</td>
+            <td style="text-align: right;">03—04</td>
+          </tr>
+          <tr style="border-bottom: 0.15mm solid #ddd;">
+            <td style="padding: 2.2mm 0; font-weight: 600;">A-07</td>
+            <td><strong>ZZZ MAG (8-Bit & Glitch)</strong></td>
+            <td>02 / Editorial & Zine</td>
+            <td><span class="swatch-dot" style="background:#E63B19;"></span><span class="swatch-dot" style="background:#0A1628;"></span> Caldo-Freddo (Arancio / Blu Notte)</td>
+            <td style="text-align: right;">05—06</td>
+          </tr>
+          <tr style="border-bottom: 0.15mm solid #ddd;">
+            <td style="padding: 2.2mm 0; font-weight: 600;">A-06</td>
+            <td><strong>99ª COLLETTIVA BLM VENEZIA</strong></td>
+            <td>01 / Cultural Poster</td>
+            <td><span class="swatch-dot" style="background:#0D0D0D;"></span><span class="swatch-dot" style="background:#E5FF00;"></span> Quantità & Qualità (Nero / Acido)</td>
+            <td style="text-align: right;">07—08</td>
+          </tr>
+          <tr style="border-bottom: 0.15mm solid #ddd;">
+            <td style="padding: 2.2mm 0; font-weight: 600;">A-09</td>
+            <td><strong>MOTM — MUSEUM OF TECHNO</strong></td>
+            <td>03 / Brand & Web UI</td>
+            <td><span class="swatch-dot" style="background:#3AA694;"></span><span class="swatch-dot" style="background:#D94E34;"></span> Complementare (Teal / Corallo)</td>
+            <td style="text-align: right;">09—10</td>
+          </tr>
+          <tr style="border-bottom: 0.15mm solid #ddd;">
+            <td style="padding: 2.2mm 0; font-weight: 600;">A-05</td>
+            <td><strong>CHOOSE YOUR COLOR</strong></td>
+            <td>01 / Pantone Study</td>
+            <td><span class="swatch-dot" style="background:#E6007E;"></span><span class="swatch-dot" style="background:#009688;"></span> Simultaneo (Rhodamine / Green)</td>
+            <td style="text-align: right;">11</td>
+          </tr>
+          <tr style="border-bottom: 0.15mm solid #ddd;">
+            <td style="padding: 2.2mm 0; font-weight: 600;">A-02</td>
+            <td><strong>BLUE BEE ACOUSTIC BAND</strong></td>
+            <td>03 / Music Identity</td>
+            <td><span class="swatch-dot" style="background:#E6D246;"></span><span class="swatch-dot" style="background:#1D1128;"></span> Complementare (Giallo / Viola)</td>
+            <td style="text-align: right;">12</td>
+          </tr>
+          <tr style="border-bottom: 0.15mm solid #ddd;">
+            <td style="padding: 2.2mm 0; font-weight: 600;">A-04</td>
+            <td><strong>LA CANEVA WINE LABELS</strong></td>
+            <td>04 / Wine Packaging</td>
+            <td><span class="swatch-dot" style="background:#24332C;"></span><span class="swatch-dot" style="background:#D4AF37;"></span> Analogo Armonico (Salvia / Oro)</td>
+            <td style="text-align: right;">13</td>
+          </tr>
+          <tr style="border-bottom: 0.15mm solid #ddd;">
+            <td style="padding: 2.2mm 0; font-weight: 600;">A-03</td>
+            <td><strong>BOTTEGA SICULA MODICA</strong></td>
+            <td>04 / Food Packaging</td>
+            <td><span class="swatch-dot" style="background:#3D2314;"></span><span class="swatch-dot" style="background:#FAF7F2;"></span> Chiaro-Scuro (Terra / Cotone)</td>
+            <td style="text-align: right;">14</td>
+          </tr>
+          <tr style="border-bottom: 0.15mm solid #ddd;">
+            <td style="padding: 2.2mm 0; font-weight: 600;">A-08</td>
+            <td><strong>VIVA LA VIDA (FRIDA & DIEGO)</strong></td>
+            <td>05 / Event Graphics</td>
+            <td><span class="swatch-dot" style="background:#7A1418;"></span><span class="swatch-dot" style="background:#2E5A36;"></span> Complementare Botanico</td>
+            <td style="text-align: right;">15</td>
+          </tr>
+          <tr style="border-bottom: 0.4mm solid #000;">
+            <td style="padding: 2.2mm 0; font-weight: 600;">A-10</td>
+            <td><strong>SPRING FESTIVAL JESOLO</strong></td>
+            <td>05 / Coordinated Event</td>
+            <td><span class="swatch-dot" style="background:#C83228;"></span><span class="swatch-dot" style="background:#FFFFFF;"></span> Saturazione su Bianco Puro</td>
+            <td style="text-align: right;">16</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="running-foot">
+      <span>NICOLA VIANELLO — GRAPHIC / WEB / PHOTO / VIDEO</span>
+      <span>[ PAG. 02 ]</span>
+    </div>
+  </div>
+</section>
+
+
+<!-- ==========================================================================
+     SPREAD 02: PROGETTO 01 — ANATOMY OF RED (Portfolio A-01.jpg)
+     Logica di Itten: Pagina SX Bianco Chirurgico | Pagina DX Verde Petrolio Scuro (Complementare del Rosso)
+     ========================================================================== -->
+<section class="spread">
+  <!-- PAGINA 03 (SX): Gallery White con esploso anatomico -->
+  <div class="page" style="background: var(--pure-white);">
+    <div class="running-head">
+      <span>01 // CONCEPT & POSTER DESIGN</span>
+      <span>REF. FILE: PORTFOLIO A-01</span>
+    </div>
+
+    <div style="display: grid; grid-template-columns: 72mm 1fr; gap: 6mm; height: 156mm; align-items: stretch;">
+      <!-- Colonna SX: Dati + Dettaglio Tipografico Cuore/Organi -->
+      <div style="display: flex; flex-direction: column; justify-content: space-between;">
+        <div>
+          <span class="itten-badge" style="margin-bottom: 3mm;">
+            <span class="swatch-dot" style="background: #FF2400;"></span>
+            PANTONE BRIGHT RED U
+          </span>
+          <h2 class="project-title" style="font-size: 23pt;">ANATOMY<br>OF RED</h2>
+          
+          <div class="meta-grid">
+            <div class="meta-item"><span>FORMATO</span>A3 Bicromia</div>
+            <div class="meta-item"><span>TECNICA</span>Bitmap + Swiss Type</div>
+            <div class="meta-item"><span>FOCUS</span>Psicologia Colore</div>
+            <div class="meta-item"><span>SEZIONE</span>Archive / R&D</div>
+          </div>
+
+          <p class="editorial-copy">
+            Ricerca visiva sulla comprensione percettiva ed emotiva del colore rosso. L'illustrazione anatomica in stile incisione calcografica viene sezionata da interventi tipografici in PANTONE Bright Red U: ogni organo (cervello, cuore, viscere, muscoli) è associato agli stati d'animo viscerali che la lunghezza d'onda del rosso innesca (Attenzione, Forza, Amore, Ansia, Velocità).
+          </p>
+        </div>
+
+        <!-- Crop sui 3 organi tipografici (PASSION / LOVE / ENERGY) -->
+        <div class="crop-box pos-upper" style="height: 36mm; border: none;">
+          <img src="Portfolio A-01.jpg" alt="Anatomy of Red Organs Detail">
+        </div>
+      </div>
+
+      <!-- Colonna DX: Tavola Anatomica Principale -->
+      <div class="crop-box pos-top" style="height: 100%; border: none;">
+        <img src="Portfolio A-01.jpg" alt="Anatomy of Red Full Figure">
+      </div>
+    </div>
+
+    <div class="running-foot">
+      <span>BICROMIA NERO INCISIONE + PANTONE BRIGHT RED U</span>
+      <span>[ PAG. 03 ]</span>
+    </div>
+  </div>
+
+  <!-- PAGINA 04 (DX): Verde Petrolio Profondo (Complementare di Itten del Rosso) -->
+  <div class="page theme-dark" style="background: var(--itten-petrol);">
+    <div class="thumb-tab tab-pos-1" style="background: var(--itten-red);">01 / POSTER</div>
+
+    <div class="running-head">
+      <span>ITTEN COMPLEMENTARY CONTRAST: RED (#FF2400) ↔ DEEP PETROL (#092622)</span>
+      <span>PRINT APPLICATION</span>
+    </div>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 5mm; height: 156mm;">
+      <div class="crop-box pos-mid" style="height: 100%;">
+        <img src="Portfolio A-01.jpg" alt="Anatomy of Red Poster Hanging">
+      </div>
+      <div style="display: grid; grid-template-rows: 1fr 42mm; gap: 5mm;">
+        <div class="crop-box pos-lower" style="height: 100%;">
+          <img src="Portfolio A-01.jpg" alt="Anatomy of Red Editorial Spread">
+        </div>
+        <div style="background: rgba(255,255,255,0.06); padding: 4mm; display: flex; flex-direction: column; justify-content: center; border-left: 1mm solid var(--itten-red);">
+          <div style="font-family: var(--font-mono); font-size: 6.5pt; color: var(--itten-red); margin-bottom: 1.5mm;">
+            NOTA DI DIREZIONE ARTISTICA
+          </div>
+          <p style="font-size: 7.5pt; line-height: 1.4; color: #dce5e3;">
+            Lo sfondo Verde Petrolio profondo applica il <strong>Contrasto dei Complementari</strong> di Itten: esalta per induzione simultanea la brillantezza del PANTONE Bright Red U presente nei manifesti senza affaticare la retina.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="running-foot">
+      <span>NICOLA VIANELLO — ANATOMY OF RED</span>
+      <span>[ PAG. 04 ]</span>
+    </div>
+  </div>
+</section>
+
+
+<!-- ==========================================================================
+     SPREAD 03: PROGETTO 02 — ZZZ MAG (Portfolio A-07.jpg)
+     Logica di Itten: Pagina SX Blu Notte Ottanio (Complementare dell'Arancio Circuito) | Pagina DX Bianco Puro
+     ========================================================================== -->
+<section class="spread">
+  <!-- PAGINA 05 (SX): Blu Notte Ottanio pieno con esplosi Glitch e Circuitbent -->
+  <div class="page theme-dark" style="background: var(--itten-navy);">
+    <div class="running-head">
+      <span>02 // INDEPENDENT EDITORIAL, GLITCH ART & SOUND</span>
+      <span>REF. FILE: PORTFOLIO A-07</span>
+    </div>
+
+    <div style="display: grid; grid-template-rows: 52mm 1fr; gap: 5mm; height: 156mm;">
+      <!-- Fascia Superiore: Titolo + Concept -->
+      <div style="display: grid; grid-template-columns: 85mm 1fr; gap: 6mm; align-items: start;">
+        <div>
+          <span class="itten-badge" style="margin-bottom: 2.5mm; border-color: var(--itten-circuit); color: #ffb3a3;">
+            <span class="swatch-dot" style="background: var(--itten-circuit);"></span>
+            8-BIT / CIRCUITBENT / DATABENDING
+          </span>
+          <h2 class="project-title" style="font-size: 26pt;">ZZZ MAG</h2>
+          <div style="font-family: var(--font-mono); font-size: 6.5pt; opacity: 0.75;">
+            MAGAZINE INDIPENDENTE DI GRAFICA, ELETTRONICA E RUMORE
+          </div>
+        </div>
+        <div>
+          <p class="editorial-copy" style="color: #cbd5e1; margin-bottom: 3mm;">
+            Progetto editoriale completo (testi, ricerche, infografiche e sperimentazione visiva) dedicato all'estetica dell'errore digitale, alla musica 8-bit e alla pratica del <em>circuit bending</em> ("distruzione creativa" di circuiti elettronici a basso voltaggio per generare nuovi timbri sonori).
+          </p>
+          <div style="font-family: var(--font-mono); font-size: 6pt; color: var(--itten-circuit);">
+            TOPICS: .08 8-BIT // .16 CIRCUITBENT // .24 DATABENDING // CONSOLE TIMELINE (1972—1994)
+          </div>
+        </div>
+      </div>
+
+      <!-- Fascia Inferiore: Dittico Spread Databending e Circuitbent Rosso/Arancio -->
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 5mm;">
+        <div class="crop-box pos-mid" style="height: 100%;">
+          <img src="Portfolio A-07.jpg" alt="ZZZ Mag Databending & Circuitbent">
+        </div>
+        <div class="crop-box pos-bottom" style="height: 100%;">
+          <img src="Portfolio A-07.jpg" alt="ZZZ Mag Macro Print Details">
+        </div>
+      </div>
+    </div>
+
+    <div class="running-foot">
+      <span>TESTI, RICERCHE E IMMAGINI A CURA DI NICOLA VIANELLO</span>
+      <span>[ PAG. 05 ]</span>
+    </div>
+  </div>
+
+  <!-- PAGINA 06 (DX): Bianco Puro Editoriale per mostrare le doppie pagine su carta bianca -->
+  <div class="page" style="background: var(--pure-white);">
+    <div class="thumb-tab tab-pos-2" style="background: var(--itten-circuit);">02 / ZINE & GLITCH</div>
+
+    <div class="running-head">
+      <span>EDITORIAL ARCHITECTURE & DATA VISUALIZATION</span>
+      <span>SPREAD OVERVIEW</span>
+    </div>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; gap: 4.5mm; height: 156mm;">
+      <div class="crop-box pos-top" style="height: 100%;">
+        <img src="Portfolio A-07.jpg" alt="ZZZ Mag Cover and 8Bit bars">
+      </div>
+      <div class="crop-box pos-upper" style="height: 100%;">
+        <img src="Portfolio A-07.jpg" alt="ZZZ Mag Console History and Glitch Cat">
+      </div>
+      <div class="crop-box pos-lower" style="height: 100%; grid-column: span 2;">
+        <img src="Portfolio A-07.jpg" alt="ZZZ Mag Open Spreads Waveform">
+      </div>
+    </div>
+
+    <div class="running-foot">
+      <span>ZZZ MAG — EDITORIAL & SOUND DESIGN RESEARCH</span>
+      <span>[ PAG. 06 ]</span>
+    </div>
+  </div>
+</section>
+
+
+<!-- ==========================================================================
+     SPREAD 04: PROGETTO 03 — 99a COLLETTIVA BEVILACQUA LA MASA (Portfolio A-06.jpg)
+     Logica di Itten: Bianco Puro (SX) + Giallo Acido Segnale (DX) per contrasto di quantità sul B/N
+     ========================================================================== -->
+<section class="spread">
+  <!-- PAGINA 07 (SX): Bianco Puro — Il manifesto tipografico B/N respira al massimo -->
+  <div class="page" style="background: var(--pure-white);">
+    <div class="running-head">
+      <span>01 // CULTURAL HERITAGE & TYPOGRAPHIC POSTER</span>
+      <span>REF. FILE: PORTFOLIO A-06</span>
+    </div>
+
+    <div style="display: grid; grid-template-columns: 98mm 1fr; gap: 6mm; height: 156mm;">
+      <div class="crop-box pos-top" style="height: 100%; border: 0.25mm solid #000;">
+        <img src="Portfolio A-06.jpg" alt="BLM 99 Manifesto Venezia">
+      </div>
+
+      <div style="display: flex; flex-direction: column; justify-content: space-between;">
+        <div>
+          <span class="itten-badge" style="margin-bottom: 3mm;">
+            <span class="swatch-dot" style="background: #000;"></span>
+            FONDAZIONE BEVILACQUA LA MASA
+          </span>
+          <h2 class="project-title" style="font-size: 21pt;">99ª COLLETTIVA<br>GIOVani ARTISTI</h2>
+
+          <div class="meta-grid">
+            <div class="meta-item"><span>ENTE</span>Comune di Venezia</div>
+            <div class="meta-item"><span>SEDE</span>Galleria Piazza S. Marco</div>
+            <div class="meta-item"><span>ANNO</span>2015 / 2016</div>
+            <div class="meta-item"><span>STILE</span>Collage Tipografico</div>
+          </div>
+
+          <p class="editorial-copy">
+            La storia artistica veneziana si è sviluppata in modo singolare e anacronistico rispetto alle altre città europee. Questo manifesto fonde l'acronimo <strong>BLM 99</strong> con innesti calcografici che rappresentano le quattro anime storiche di Venezia: la pittura, la scultura, l'architettura (la cupola della Salute, il Campanile di San Marco, la gondola) e la musica barocca.
+          </p>
+        </div>
+
+        <div class="crop-box pos-upper" style="height: 44mm; border: none;">
+          <img src="Portfolio A-06.jpg" alt="BLM Logotype Horizontal">
+        </div>
+      </div>
+    </div>
+
+    <div class="running-foot">
+      <span>19 DICEMBRE 2015 — 17 GENNAIO 2016 // PIAZZA SAN MARCO, VENEZIA</span>
+      <span>[ PAG. 07 ]</span>
+    </div>
+  </div>
+
+  <!-- PAGINA 08 (DX): Sfondo Giallo Segnale / Grigio Pietra d'Istria con accento acido -->
+  <div class="page" style="background: var(--itten-acid); color: var(--ink-black);">
+    <div class="thumb-tab tab-pos-1">01 / POSTER</div>
+
+    <div class="running-head" style="border-color: #000;">
+      <span>ITTEN QUANTITY & HIGH-LUMINANCE CONTRAST</span>
+      <span>ENVIRONMENTAL MOCKUP</span>
+    </div>
+
+    <div style="display: grid; grid-template-columns: 1fr 58mm; gap: 6mm; height: 156mm; align-items: stretch;">
+      <div class="crop-box pos-lower" style="height: 100%; border: 0.4mm solid #000; box-shadow: 4mm 4mm 0 #000;">
+        <img src="Portfolio A-06.jpg" alt="BLM 99 Poster Folded Mockup">
+      </div>
+
+      <div style="display: flex; flex-direction: column; justify-content: space-between; border-left: 0.3mm solid #000; padding-left: 4mm;">
+        <div>
+          <div style="font-family: var(--font-mono); font-size: 7pt; font-weight: 600; margin-bottom: 2mm;">
+            ARCHITETTURA DEL SEGNO
+          </div>
+          <p style="font-size: 7.8pt; line-height: 1.45;">
+            Le grazie e le aste dei caratteri monumentali diventano contenitori architettonici. L'uso di una pagina piena in Giallo Acido (`#E5FF00`) crea uno stacco contemporaneo netto che esalta il rigore del bianco e nero xilografico.
+          </p>
+        </div>
+
+        <div class="crop-box pos-bottom" style="height: 68mm; border: 0.3mm solid #000;">
+          <img src="Portfolio A-06.jpg" alt="BLM 99 Macro Detail 99">
+        </div>
+      </div>
+    </div>
+
+    <div class="running-foot" style="border-color: #000;">
+      <span>FONDAZIONE BEVILACQUA LA MASA — VENEZIA</span>
+      <span>[ PAG. 08 ]</span>
+    </div>
+  </div>
+</section>
+
+
+<!-- ==========================================================================
+     SPREAD 05: PROGETTO 04 — MOTM MUSEUM OF TECHNO MUSIC (Portfolio A-09.jpg)
+     Logica di Itten: Nero Berlino / Verde Acqua (SX) + Corallo Ruggine Complementare (DX)
+     ========================================================================== -->
+<section class="spread">
+  <!-- PAGINA 09 (SX): Berlino Dark Room -->
+  <div class="page theme-dark" style="background: var(--itten-Berlin-dark);">
+    <div class="running-head" style="color: var(--itten-techno-teal);">
+      <span>03 // BRAND IDENTITY, WAYFINDING & WEB DESIGN</span>
+      <span>REF. FILE: PORTFOLIO A-09</span>
+    </div>
+
+    <div style="display: grid; grid-template-rows: 1fr 64mm; gap: 5mm; height: 156mm;">
+      <div style="display: grid; grid-template-columns: 74mm 1fr; gap: 6mm;">
+        <div>
+          <span class="itten-badge" style="border-color: var(--itten-techno-teal); color: var(--itten-techno-teal); margin-bottom: 3mm;">
+            <span class="swatch-dot" style="background: var(--itten-techno-teal);"></span>
+            BERLIN // DETROIT PIONEERS
+          </span>
+          <h2 class="project-title" style="font-size: 22pt;">M.O.T.M.<br><span style="color: var(--itten-techno-teal); font-size: 13pt;">MUSEUM OF TECHNO MUSIC</span></h2>
+
+          <div class="meta-grid" style="border-color: rgba(255,255,255,0.2);">
+            <div class="meta-item"><span>LOCATION</span>Krapfen Straße, Berlin</div>
+            <div class="meta-item"><span>SCOPE</span>Brand + Web + Exhibit</div>
+            <div class="meta-item"><span>ICONS</span>May, Saunderson, Atkins</div>
+            <div class="meta-item"><span>WAVEFORM</span>Modular Monogram</div>
+          </div>
+
+          <p class="editorial-copy" style="color: #ccc; font-size: 7.8pt;">
+            Sistema di identità visiva coordinata per il Museo della Musica Techno a Berlino. Il marchio integra un'onda sonora sintetizzata (dente di sega/quadra) nella geometria del lettering. Include immagine coordinata cartacea, ritratti editoriali della Belleville Three di Detroit (Derrick May, Kevin Saunderson, Juan Atkins), allestimento architettonico, totem di wayfinding e interfaccia web.
+          </p>
+        </div>
+
+        <div class="crop-box pos-top" style="height: 100%;">
+          <img src="Portfolio A-09.jpg" alt="MOTM Stationery Corporate Identity">
+        </div>
+      </div>
+
+      <!-- Striscia Ritratti Pionieri Detroit -->
+      <div class="crop-box pos-upper" style="height: 100%; border-color: var(--itten-techno-teal);">
+        <img src="Portfolio A-09.jpg" alt="Derrick May, Kevin Saunderson, Juan Atkins">
+      </div>
+    </div>
+
+    <div class="running-foot" style="color: var(--itten-techno-teal);">
+      <span>MUSEUM OF TECHNO MUSIC — KRAPFEN STRASSE 420, 10178 BERLIN</span>
+      <span>[ PAG. 09 ]</span>
+    </div>
+  </div>
+
+  <!-- PAGINA 10 (DX): Corallo Ruggine (Complementare di Itten del Verde Acqua MOTM) -->
+  <div class="page theme-dark" style="background: var(--itten-coral);">
+    <div class="thumb-tab tab-pos-3" style="background: var(--itten-Berlin-dark);">03 / BRAND & WEB</div>
+
+    <div class="running-head">
+      <span>ITTEN COMPLEMENTARY CONTRAST: TECHNO TEAL (#3AA694) ↔ RUST CORAL (#D94E34)</span>
+      <span>EXHIBITION & DIGITAL UI</span>
+    </div>
+
+    <div style="display: grid; grid-template-rows: 74mm 1fr; gap: 5mm; height: 156mm;">
+      <div class="crop-box pos-mid" style="height: 100%; box-shadow: 0 8px 24px rgba(0,0,0,0.35);">
+        <img src="Portfolio A-09.jpg" alt="MOTM Architectural Entrance">
+      </div>
+      <div class="crop-box pos-bottom" style="height: 100%; box-shadow: 0 8px 24px rgba(0,0,0,0.35);">
+        <img src="Portfolio A-09.jpg" alt="MOTM Totem Wayfinding and Website UI">
+      </div>
+    </div>
+
+    <div class="running-foot">
+      <span>SPATIAL DESIGN, INTERACTIVE KIOSK & WEB INTERFACE</span>
+      <span>[ PAG. 10 ]</span>
+    </div>
+  </div>
+</section>
+
+
+<!-- ==========================================================================
+     SPREAD 06: PROGETTO 05 (CHOOSE YOUR COLOR A-05) + PROGETTO 06 (BLUE BEE A-02)
+     Logica di Itten: Grigio Caldo Pantone (SX) + Viola Indaco Complementare del Giallo (DX)
+     ========================================================================== -->
+<section class="spread">
+  <!-- PAGINA 11 (SX): Choose Your Color (Portfolio A-05.jpg) -->
+  <div class="page" style="background: var(--warm-paper);">
+    <div class="running-head">
+      <span>01 // CHROMATIC & 3D GEOMETRIC STUDY</span>
+      <span>REF. FILE: PORTFOLIO A-05</span>
+    </div>
+
+    <div style="display: grid; grid-template-columns: 68mm 1fr; gap: 6mm; height: 156mm;">
+      <div style="display: flex; flex-direction: column; justify-content: space-between;">
+        <div>
+          <span class="itten-badge" style="margin-bottom: 3mm;">
+            <span class="swatch-dot" style="background: #E6007E;"></span>
+            <span class="swatch-dot" style="background: #009688;"></span>
+            PANTONE SYSTEM
+          </span>
+          <h2 class="project-title" style="font-size: 20pt;">CHOOSE<br>YOUR COLOR</h2>
+
+          <div class="meta-grid">
+            <div class="meta-item"><span>PALETTE 01</span>Rhodamine Red</div>
+            <div class="meta-item"><span>PALETTE 02</span>PANTONE Green</div>
+            <div class="meta-item"><span>PALETTE 03</span>PANTONE 7458</div>
+            <div class="meta-item"><span>BASE</span>Warm Gray 2</div>
+          </div>
+
+          <p class="editorial-copy" style="font-size: 7.8pt;">
+            Studio compositivo sulla percezione di profondità spaziale tramite gradienti fluidi e solidi platonici sospesi (ispirazione Memphis / Post- digitale). La tavola esplora tre variazioni progressive di densità grafica e l'interazione dei tre colori chiave su fondo neutro caldo rispetto al fondo nero assoluto.
+          </p>
+        </div>
+
+        <div class="crop-box pos-mid" style="height: 46mm;">
+          <img src="Portfolio A-05.jpg" alt="Choose Your Color 3 Variants">
+        </div>
+      </div>
+
+      <div style="display: grid; grid-template-rows: 1fr 52mm; gap: 4mm;">
+        <div class="crop-box pos-top" style="height: 100%;">
+          <img src="Portfolio A-05.jpg" alt="Choose Your Color Main Poster">
+        </div>
+        <div class="crop-box pos-bottom" style="height: 100%;">
+          <img src="Portfolio A-05.jpg" alt="Choose Your Color Framed">
+        </div>
+      </div>
+    </div>
+
+    <div class="running-foot">
+      <span>NICOLA VIANELLO — CHOOSE YOUR COLOR (PANTONE STUDY)</span>
+      <span>[ PAG. 11 ]</span>
+    </div>
+  </div>
+
+  <!-- PAGINA 12 (DX): Blue Bee Acoustic Band (Portfolio A-02.jpg) su Sfondo Viola Indaco (Complementare Giallo) -->
+  <div class="page theme-dark" style="background: var(--itten-indigo);">
+    <div class="thumb-tab tab-pos-3" style="background: var(--itten-bee-yellow); color: #000;">03 / MUSIC ID</div>
+
+    <div class="running-head" style="color: var(--itten-bee-yellow);">
+      <span>03 // MUSIC BAND IDENTITY & POSTER (YELLOW ↔ VIOLET COMPLEMENTARY)</span>
+      <span>REF. FILE: PORTFOLIO A-02</span>
+    </div>
+
+    <div style="display: grid; grid-template-columns: 76mm 1fr; gap: 6mm; height: 156mm;">
+      <div style="display: flex; flex-direction: column; justify-content: space-between;">
+        <div>
+          <span class="itten-badge" style="border-color: var(--itten-bee-yellow); color: var(--itten-bee-yellow); margin-bottom: 3mm;">
+            <span class="swatch-dot" style="background: var(--itten-bee-yellow);"></span>
+            SEMIOTICS + LOGO DESIGN
+          </span>
+          <h2 class="project-title" style="font-size: 22pt; color: var(--itten-bee-yellow);">BLUE BEE</h2>
+          <div style="font-family: var(--font-mono); font-size: 6.5pt; margin-bottom: 3mm;">
+            unStinged Acoustic Band — Sting & Police Tribute
+          </div>
+
+          <p class="editorial-copy" style="color: #e2d9eb; font-size: 7.8pt; margin-bottom: 3mm;">
+            Sintesi perfetta tra notazione musicale e zoologia: l'ape (simbolo di Sting) è costruita assemblando esclusivamente figure di valore e pause musicali (semiminima, croma, semicroma). Il fondo Viola Indaco attiva la coppia complementare primaria di Itten con il giallo acido della locandina concerto.
+          </p>
+        </div>
+
+        <!-- Genesi del Logo (Tabella note + ape) -->
+        <div class="crop-box pos-top" style="height: 68mm; background: #fff;">
+          <img src="Portfolio A-02.jpg" alt="Blue Bee Musical Notes Genesis">
+        </div>
+      </div>
+
+      <!-- Locandina Gialla su Fondo Viola -->
+      <div class="crop-box pos-bottom" style="height: 100%; border: 0.4mm solid var(--itten-bee-yellow);">
+        <img src="Portfolio A-02.jpg" alt="Blue Bee Concert Poster Yellow">
+      </div>
+    </div>
+
+    <div class="running-foot" style="color: var(--itten-bee-yellow);">
+      <span>VOCE: SARA RIGHETTO // CHITARRA: A. MARCHESIN // PERCUSSIONI: E. DE FANTI // BASSO: D. GIACOMAZZI</span>
+      <span>[ PAG. 12 ]</span>
+    </div>
+  </div>
+</section>
+
+
+<!-- ==========================================================================
+     SPREAD 07: PACKAGING & LABEL DESIGN — LA CANEVA (A-04) + BOTTEGA SICULA (A-03)
+     Logica di Itten: Verde Salvia Scuro (SX) + Carta Avorio Naturale (DX)
+     ========================================================================== -->
+<section class="spread">
+  <!-- PAGINA 13 (SX): La Caneva di Giancarlo (Portfolio A-04.jpg) -->
+  <div class="page theme-dark" style="background: var(--itten-sage);">
+    <div class="running-head">
+      <span>04 // WINE LABEL SYSTEMS & PACKAGING</span>
+      <span>REF. FILE: PORTFOLIO A-04</span>
+    </div>
+
+    <div style="display: grid; grid-template-rows: 46mm 1fr; gap: 5mm; height: 156mm;">
+      <div style="display: grid; grid-template-columns: 78mm 1fr; gap: 6mm;">
+        <div>
+          <span class="itten-badge" style="margin-bottom: 2mm;">
+            <span class="swatch-dot" style="background: #d4af37;"></span>
+            CEGGIA, VENEZIA // WINE ARCHIVE
+          </span>
+          <h2 class="project-title" style="font-size: 22pt;">LA CANEVA</h2>
+          <p class="editorial-copy" style="color: #d1dbd6; font-size: 7.6pt;">
+             Tre linee di etichette per l'azienda vitivinicola La Caneva: la serie astronomica (<em>Mercurio, Venere, Marte, Giove, Saturno, Sole, Luna</em>) che abbina un'immagine raster planetaria al vitigno; la serie chimico-periodica e la linea spumanti <em>Scudetto</em> con citazioni pittoriche (Van Gogh, Mucha).
+          </p>
+        </div>
+        <div class="crop-box pos-upper" style="height: 100%;">
+          <img src="Portfolio A-04.jpg" alt="La Caneva Planets Lineup">
+        </div>
+      </div>
+
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 5mm;">
+        <div class="crop-box pos-mid" style="height: 100%;">
+          <img src="Portfolio A-04.jpg" alt="La Caneva Mercurio Bottle Closeup">
+        </div>
+        <div class="crop-box pos-bottom" style="height: 100%;">
+          <img src="Portfolio A-04.jpg" alt="La Caneva Scudetto Art Series">
+        </div>
+      </div>
+    </div>
+
+    <div class="running-foot">
+      <span>LA CANEVA DI GIANCARLO — CEGGIA (VE) // LABEL DESIGN SYSTEM</span>
+      <span>[ PAG. 13 ]</span>
+    </div>
+  </div>
+
+  <!-- PAGINA 14 (DX): Bottega Sicula (Portfolio A-03.jpg) -->
+  <div class="page" style="background: #FAF7F2;">
+    <div class="thumb-tab tab-pos-4" style="background: #3D2314;">04 / PACKAGING</div>
+
+    <div class="running-head">
+      <span>04 // ARTISANAL FOOD PACKAGING & BRANDING</span>
+      <span>REF. FILE: PORTFOLIO A-03</span>
+    </div>
+
+    <div style="display: grid; grid-template-columns: 1fr 74mm; gap: 6mm; height: 156mm;">
+      <div style="display: grid; grid-template-rows: 1fr 1fr; gap: 4.5mm;">
+        <div class="crop-box pos-upper" style="height: 100%;">
+          <img src="Portfolio A-03.jpg" alt="Bottega Sicula Pasta Packaging Mockup">
+        </div>
+        <div class="crop-box pos-mid" style="height: 100%;">
+          <img src="Portfolio A-03.jpg" alt="Bottega Sicula Brand Sheet and Lemons">
+        </div>
+      </div>
+
+      <div style="display: flex; flex-direction: column; justify-content: space-between;">
+        <div>
+          <span class="itten-badge" style="margin-bottom: 3mm; color: #3D2314; border-color: #3D2314;">
+            <span class="swatch-dot" style="background: #3D2314;"></span>
+            SCUOLA INT. DI GRAFICA VENEZIA
+          </span>
+          <h2 class="project-title" style="font-size: 21pt; color: #3D2314;">BOTTEGA<br>SICULA</h2>
+
+          <div class="meta-grid" style="border-color: #3D2314;">
+            <div class="meta-item"><span>TARGET</span>Prodotti di Modica</div>
+            <div class="meta-item"><span>PACK</span>Carta Kraft + Fustella</div>
+            <div class="meta-item"><span>PRODOTTI</span>Cacao, Carruba, Rapa</div>
+            <div class="meta-item"><span>ASSET</span>Logo + Infografica</div>
+          </div>
+
+          <p class="editorial-copy" style="font-size: 7.8pt;">
+            Progettazione di marchio e packaging primario per un negozio di pasta e prodotti artigianali di Modica (Pennette al Cacao, Tagliatelle alla Carruba, Paccheri alla Barbabietola). Ogni confezione integra una mappa botanico-illustrativa degli ingredienti e delle proprietà organolettiche.
+          </p>
+        </div>
+
+        <div class="crop-box pos-lower" style="height: 46mm; background: #fff;">
+          <img src="Portfolio A-03.jpg" alt="Bottega Sicula Logo Variations">
+        </div>
+      </div>
+    </div>
+
+    <div class="running-foot">
+      <span>BOTTEGA SICULA — TRADIZIONE SICILIANA // PACKAGING PRIMARIO</span>
+      <span>[ PAG. 14 ]</span>
+    </div>
+  </div>
+</section>
+
+
+<!-- ==========================================================================
+     SPREAD 08: EVENT CAMPAIGNS (VIVA LA VIDA A-08 + SPRING FESTIVAL A-10) + COLOPHON
+     Logica di Itten: Rosso Carminio Frida (SX) + Bianco Puro Editoriale con Colophon (DX)
+     ========================================================================== -->
+<section class="spread">
+  <!-- PAGINA 15 (SX): Viva la Vida (Portfolio A-08.jpg) su Rosso Carminio Scuro -->
+  <div class="page theme-dark" style="background: var(--itten-crimson);">
+    <div class="running-head">
+      <span>05 // CULTURAL EVENTS & ILLUSTRATED MANIFESTOS</span>
+      <span>REF. FILE: PORTFOLIO A-08</span>
+    </div>
+
+    <div style="display: grid; grid-template-columns: 74mm 1fr; gap: 6mm; height: 156mm;">
+      <div style="display: flex; flex-direction: column; justify-content: space-between;">
+        <div>
+          <span class="itten-badge" style="margin-bottom: 3mm;">
+            <span class="swatch-dot" style="background: #fff;"></span>
+            BIBLIOTECA COMUNALE JESOLO
+          </span>
+          <h2 class="project-title" style="font-size: 22pt;">VIVA LA VIDA</h2>
+          <div style="font-family: var(--font-mono); font-size: 6.5pt; margin-bottom: 3mm; color: #ffccd0;">
+            FRIDA E DIEGO, UN AMORE — READING & CONCERTO
+          </div>
+          <p class="editorial-copy" style="color: #f5dadd; font-size: 7.8pt;">
+            Doppia declinazione visiva per lo spettacolo letterario-musicale dedicato a Frida Kahlo e Diego Rivera (Voce: Sara Righetto, Chitarre: A. Marchesin, A. Pasqual). La prima versione lavora per sintesi vettoriale simmetrica e collage botanico; la seconda sovrappone il lettering calligrafico rosso al doppio ritratto fotografico split-screen in bianco e nero.
+          </p>
+        </div>
+
+        <div class="crop-box pos-bottom" style="height: 68mm;">
+          <img src="Portfolio A-08.jpg" alt="Viva la Vida Split Portrait">
+        </div>
+      </div>
+
+      <div class="crop-box pos-top" style="height: 100%; background: #fff;">
+        <img src="Portfolio A-08.jpg" alt="Viva la Vida Botanical Illustration">
+      </div>
+    </div>
+
+    <div class="running-foot">
+      <span>18 FEBBRAIO 2017 — GRUPPO VOLONTARI BIBLIOTECA DI JESOLO "VOLTA LA CARTA"</span>
+      <span>[ PAG. 15 ]</span>
+    </div>
+  </div>
+
+  <!-- PAGINA 16 (DX): Spring Festival Jesolo (A-10) + COLOPHON FINALE DI STAMPA -->
+  <div class="page" style="background: var(--pure-white);">
+    <div class="thumb-tab tab-pos-5" style="background: var(--itten-crimson);">05 / EVENTS</div>
+
+    <div class="running-head">
+      <span>05 // FESTIVAL COORDINATED CAMPAIGN + COLOPHON</span>
+      <span>REF. FILE: PORTFOLIO A-10</span>
+    </div>
+
+    <div style="display: grid; grid-template-rows: 98mm 1fr; gap: 4.5mm; height: 156mm;">
+      <!-- Parte Alta: Spring Festival Jesolo 2017 -->
+      <div style="display: grid; grid-template-columns: 62mm 1fr; gap: 5mm;">
+        <div>
+          <h2 class="project-title" style="font-size: 16pt; margin-bottom: 1.5mm;">SPRING FESTIVAL<br>JESOLO PAESE</h2>
+          <div style="font-family: var(--font-mono); font-size: 6pt; opacity: 0.7; margin-bottom: 2mm;">
+            7·8·9 APRILE 2017 // CITTÀ DI JESOLO & RADIO PITERPAN
+          </div>
+          <p class="editorial-copy" style="font-size: 7.2pt;">
+            Immagine coordinata per la Festa di Primavera: cornice d'erbario fotografico su fondo bianco declinata cromaticamente per le singole serate (<em>Friday Rockabilly, Funky Spaghetti, Marina Club, Sunday Piterpan</em>) e griglia sinottica del programma gastronomico e musicale.
+          </p>
+        </div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 3mm;">
+          <div class="crop-box pos-top" style="height: 100%;">
+            <img src="Portfolio A-10.jpg" alt="Spring Festival Main Header">
+          </div>
+          <div class="crop-box pos-mid" style="height: 100%;">
+            <img src="Portfolio A-10.jpg" alt="Spring Festival Daily Flyers">
+          </div>
+        </div>
+      </div>
+
+      <!-- Parte Bassa: COLOPHON EDITORIALE E TECNICO -->
+      <div style="background: var(--ink-black); color: var(--pure-white); padding: 4.5mm 6mm; display: grid; grid-template-columns: 1.2fr 1fr 1fr; gap: 6mm; align-items: start; font-family: var(--font-mono); font-size: 6pt; line-height: 1.55;">
+        <div>
+          <div style="color: var(--itten-acid); font-weight: 600; margin-bottom: 1.5mm; letter-spacing: 0.1em;">
+            COLOPHON // CREDITS
+          </div>
+          <strong>PROGETTO E DIREZIONE ARTISTICA:</strong><br>
+          Nicola Vianello — Graphic Designer, Web Designer, Photographer & Video Editor.<br>
+          San Donà di Piave / Venezia, Italia.<br>
+          Tutti i progetti presentati in questo primo volume appartengono all'archivio di formazione e ricerca (Scuola Internazionale di Grafica di Venezia & committenze territoriali 2015—2017).
+        </div>
+        <div>
+          <div style="color: var(--itten-acid); font-weight: 600; margin-bottom: 1.5mm; letter-spacing: 0.1em;">
+            PRODUCTION & WORKFLOW
+          </div>
+          <strong>SISTEMA DI IMPAGINAZIONE:</strong><br>
+          Sviluppato in codice tramite architettura <em>Web-to-Print CSS Paged Media</em> in ambiente AI-assisted.<br>
+          <strong>FORMATO:</strong> Spread 420 × 210 mm (Chiuso 210 × 210 mm).<br>
+          <strong>TEORIA DEL COLORE:</strong> Contrasti di Itten (Complementari, Caldo/Freddo, Chiaro/Scuro, Quantità).
+        </div>
+        <div>
+          <div style="color: var(--itten-acid); font-weight: 600; margin-bottom: 1.5mm; letter-spacing: 0.1em;">
+            TYPOGRAPHY & PAPER SPECS
+          </div>
+          <strong>DISPLAY:</strong> Syne Bold / ExtraBold<br>
+          <strong>BODY COPY:</strong> Inter Regular (8.2 pt)<br>
+          <strong>METADATA:</strong> IBM Plex Mono (6.5 pt)<br>
+          <strong>CARTA CONSIGLIATA:</strong> Fedrigoni Arena Natural Rough 140g/m² (interno) + 300g/m² (copertina).
+        </div>
+      </div>
+    </div>
+
+    <div class="running-foot">
+      <span>STAMPATO IN ITALIA — TUTTI I DIRITTI RISERVATI © NICOLA VIANELLO</span>
+      <span>[ PAG. 16 // FINE VOL. I ]</span>
+    </div>
+  </div>
+</section>
+
+</body>
+</html>

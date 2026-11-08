@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NICOLA VIANELLO — Selected Works & Archive Monograph (Vol. A + B)</title>
+  <meta name="description" content="Portfolio Web Monopagina Interattivo di Nicola Vianello — Executive Art Direction, Brand Identity, Editorial Glitch Art, Packaging Systems, Cultural Posters & Digital UI.">
+
+  <!-- Google Fonts: Tutte le 7 famiglie tipografiche richieste per il morphing di sezione -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=IBM+Plex+Mono:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,700;0,800;1,400;1,700&family=Space+Grotesk:wght@300;400;500;600;700&family=Syne:wght@600;700;800&family=Unbounded:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="loading">
+
+  <!-- ========================================================================
+       FILTRI SVG CHIRURGICI IN CODICE (TEXTURE CARTA, RGB GLITCH SPLIT, DEBOSS)
+       ======================================================================== -->
+  <svg class="svg-defs" aria-hidden="true" width="0" height="0" style="position:absolute; width:0; height:0; overflow:hidden;">
+    <defs>
+      <!-- 1. Texture Carta Fine per Poster 3D e Biglietti in Cotone -->
+      <filter id="svg-paper-grain" x="0%" y="0%" width="100%" height="100%">
+        <feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="4" stitchTiles="stitch" result="noise" />
+        <feColorMatrix type="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 0.08 0" in="noise" result="coloredNoise" />
+        <feComposite operator="in" in2="SourceGraphic" />
+      </filter>
+
+      <!-- 2. Aberrazione Cromatica / RGB Split per progetti Glitch & Zine -->
+      <filter id="svg-rgb-split" x="-10%" y="-10%" width="120%" height="120%">
+        <feOffset in="SourceGraphic" dx="-4" dy="0" result="redShift" />
+        <feOffset in="SourceGraphic" dx="4" dy="0" result="blueShift" />
+        <feColorMatrix in="redShift" type="matrix"
+          values="1 0 0 0 0
+                  0 0 0 0 0
+                  0 0 0 0 0
+                  0 0 0 1 0" result="redOnly" />
+        <feColorMatrix in="SourceGraphic" type="matrix"
+          values="0 0 0 0 0
+                  0 1 0 0 0
+                  0 0 0 0 0
+                  0 0 0 1 0" result="greenOnly" />
+        <feColorMatrix in="blueShift" type="matrix"
+          values="0 0 0 0 0
+                  0 0 0 0 0
+                  0 0 1 0 0
+                  0 0 0 1 0" result="blueOnly" />
+        <feBlend mode="screen" in="redOnly" in2="greenOnly" result="rg" />
+        <feBlend mode="screen" in="rg" in2="blueOnly" />
+      </filter>
+    </defs>
+  </svg>
+
+  <!-- Overlay Noise Globale Editoriale -->
+  <div class="ambient-noise-overlay" aria-hidden="true"></div>
+
+  <!-- Cursore Custom Magnetico + Anteprima Flottante dell'Indice -->
+  <div id="custom-cursor" class="custom-cursor" aria-hidden="true">
+    <span class="cursor-label">VIEW</span>
+  </div>
+
+  <div id="index-floating-preview" class="index-floating-preview" aria-hidden="true">
+    <div class="preview-header">
+      <span id="preview-code" class="preview-code">A-01</span>
+      <span id="preview-cat" class="preview-cat">04 // POSTER</span>
+    </div>
+    <div class="preview-img-wrap">
+      <img id="preview-img" src="Portfolio A-01.jpg" alt="Project Preview">
+    </div>
+    <div class="preview-footer">
+      <span id="preview-itten-dot-1" class="swatch-dot"></span>
+      <span id="preview-itten-dot-2" class="swatch-dot"></span>
+      <span id="preview-itten-label" class="preview-itten-text">Contrasto di Itten</span>
+    </div>
+  </div>
+
+  <!-- ========================================================================
+       TOP ARCHITECTURAL HUD BAR (RUNNING HEADER DINAMICO)
+       ======================================================================== -->
+  <header class="top-hud" id="top-hud">
+    <div class="hud-left">
+      <a href="#hero" class="brand-monogram" data-scroll-to="#hero">
+        <span class="monogram-box">NV</span>
+        <div class="brand-meta">
+          <strong>NICOLA VIANELLO</strong>
+          <span>ARCHIVE &amp; SELECTED WORKS // VOL. A+B</span>
+        </div>
+      </a>
+    </div>
+
+    <!-- Indicatore Live Griglia di Itten 
+    <div class="hud-center" id="itten-hud">
+      <div class="itten-live-pill">
+        <span class="itten-live-code" id="hud-project-code">VOL. I—II</span>
+        <div class="itten-swatches">
+          <span class="swatch-dot" id="hud-swatch-1" style="background: #FF2400;"></span>
+          <span class="swatch-dot" id="hud-swatch-2" style="background: #092622;"></span>
+        </div>
+        <span class="itten-live-text" id="hud-itten-contrast">ITTEN CHROMATIC ENGINE // READY</span>
+      </div>
+    </div>-->
+
+    <nav class="hud-right" aria-label="Navigazione principale">
+      <button class="hud-btn" data-scroll-to="#curatorial-index">
+        <span>INDICE [25]</span>
+      </button>
+      <button class="hud-btn" data-scroll-to="#projects-stream">
+        <span>ESPOSIZIONE</span>
+      </button>
+      <button class="hud-btn" id="toggle-grid-overlay" title="Mostra/Nascondi Griglia Architettonica Svizzera">
+        <span>GRID</span>
+      </button>
+      <a href="portfolio-print.html" target="_blank" class="hud-btn hud-btn-accent" title="Apri Versione Web-to-Print Spread">
+        <span>PRINT ED. ↗</span>
+      </a>
+    </nav>
+  </header>
+
+  <!-- Griglia Architettonica Svizzera Opzionale -->
+  <div id="swiss-grid-overlay" class="swiss-grid-overlay" aria-hidden="true">
+    <div class="grid-col"></div>
+    <div class="grid-col"></div>
+    <div class="grid-col"></div>
+    <div class="grid-col"></div>
+    <div class="grid-col"></div>
+    <div class="grid-col"></div>
+    <div class="grid-col"></div>
+    <div class="grid-col"></div>
+    <div class="grid-col"></div>
+    <div class="grid-col"></div>
+    <div class="grid-col"></div>
+    <div class="grid-col"></div>
+  </div>
+
+  <!-- ========================================================================
+       DOCK LATERALE VERTICALE "THUMB-INDEX" (ISPIRATA ALLE TACCHE TIPOGRAFICHE)
+       ======================================================================== -->
+  <aside class="thumb-index-dock" id="thumb-index-dock" aria-label="Filtro Categorie Thumb-Index">
+    <div class="dock-progress-track">
+      <div class="dock-progress-bar" id="dock-progress-bar"></div>
+    </div>
+    <div class="dock-tabs" id="dock-tabs">
+      <!-- Generato dinamicamente da app.js usando PORTFOLIO_CATEGORIES -->
+    </div>
+  </aside>
+
+  <!-- ========================================================================
+       MAIN SMOOTH SCROLL CONTAINER
+       ======================================================================== -->
+  <main id="smooth-content">
+
+    <!-- ======================================================================
+         1. HERO MONUMENTALE & CURATORIAL STATEMENT
+         ====================================================================== -->
+    <section class="hero-section" id="hero" data-bg="#0D0D0D" data-text="#FFFFFF" data-accent="#E5FF00">
+      <div class="hero-container">
+        <div class="hero-top-meta">
+          <div class="meta-badge">
+            <span class="pulse-dot"></span>
+            <span>CURATORIAL MONOGRAPH // PORTFOLIO A + PORTFOLIO B</span>
+          </div>
+          <!-- <div class="meta-location">
+            <span>VENEZIA / SAN DONÀ DI PIAVE — ITALIA</span>
+            <span>[ 25 PROGETTI INTEGRALI // 5 MACRO-SISTEMI ]</span>
+          </div -->
+
+        <div class="hero-title-block">
+          <h1 class="hero-display-title">
+            <span class="line-wrap"><span class="line-inner">ARCHIVIO</span></span>
+            <span class="line-wrap"><span class="line-inner">MATERICO <em class="serif-italic">&amp;</em></span></span>
+            <span class="line-wrap"><span class="line-inner accent-stroke" data-scramble="SISTEMI VISIVI.">SISTEMI VISIVI.</span></span>
+          </h1>
+        </div>
+
+        <div class="hero-editorial-grid">
+          <div class="hero-statement">
+            <div class="section-kicker">[ DIREZIONE ARTISTICA, RICERCA VISIVA &amp; PROGETTAZIONE MULTIDISCIPLINARE ]</div>
+            <p class="hero-lead">
+              Dalla tipografia xilografica veneziana e il databending analogico-digitale fino ai sistemi di packaging vitivinicolo DOCG e alle interfacce web per l’alta orologeria. Questo catalogo interattivo fonde in un’unica sequenza ritmica i volumi <strong>Portfolio A</strong> e <strong>Portfolio B</strong>, governando lo spazio attraverso lo <em>Smart-Slicing</em> delle tavole, mockup tridimensionali generati in puro codice CSS3 e la <strong>Griglia dei Contrasti Cromatici di Johannes Itten</strong>.
+            </p>
+            <div class="hero-cta-row">
+              <button class="btn-primary" data-scroll-to="#curatorial-index">
+                <span>ESPLORA L’INDICE RAGIONATO (25)</span>
+                <span class="btn-arrow">↓</span>
+              </button>
+              <button class="btn-secondary" data-scroll-to="#projects-stream">
+                <span>INIZIA IL PERCORSO CURATORIALE</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Card Interattiva del Sistema di Itten & Statistiche 
+          <div class="hero-telemetry-bento">
+            <div class="telemetry-card">
+              <div class="telemetry-header">
+                <span>CHROMATIC ARCHITECTURE</span>
+                <span class="badge-outline">JOHANNES ITTEN</span>
+              </div>
+              <div class="itten-wheel-mini" id="hero-itten-wheel">
+                <div class="wheel-ring"></div>
+                <div class="wheel-pair">
+                  <span style="background:#FF2400" title="Bright Red"></span>
+                  <span style="background:#092622" title="Deep Petrol"></span>
+                  <span style="background:#E63B19" title="Circuit Orange"></span>
+                  <span style="background:#0A1628" title="Oscilloscope Navy"></span>
+                  <span style="background:#E5FF00" title="Acid Signal"></span>
+                  <span style="background:#1D1128" title="Deep Indigo"></span>
+                  <span style="background:#3AA694" title="Techno Teal"></span>
+                  <span style="background:#D4AF37" title="Cartizze Gold"></span>
+                </div>
+              </div>
+              <p class="telemetry-caption">
+                Ogni progetto trasforma l’atmosfera cromatica dell’intera pagina applicando i 7 contrasti percettivi (Complementari, Caldo-Freddo, Quantità, Qualità, Simultaneo, Chiaro-Scuro).
+              </p>
+            </div>-->
+
+            <div class="telemetry-stats">
+              <div class="stat-box">
+                <span class="stat-num">15</span>
+                <span class="stat-label">ANNI NEL SETTORE</span>
+              </div>
+              <div class="stat-box">
+                <span class="stat-num">28.800+</span>
+                <span class="stat-label">ORE DI ESPERIENZA</span>
+              </div>
+              <div class="stat-box">
+                <span class="stat-num">05</span>
+                <span class="stat-label">MACRO-CATEGORIE FILTRABILI</span>
+              </div>
+              <div class="stat-box">
+                <span class="stat-num">07</span>
+                <span class="stat-label">FAMIGLIE TIPOGRAFICHE DINAMICHE</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Barra Filtri Rapidi con GSAP Flip -->
+        <div class="category-filter-bar" id="hero-filter-bar" role="tablist" aria-label="Filtra per Macro-Categoria">
+          <!-- Popolato da app.js -->
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         2. INDICE RAGIONATO INTERATTIVO (CON ANTEPRIMA FLOTTANTE AL CURSORE)
+         ====================================================================== -->
+    <section class="index-section" id="curatorial-index" data-bg="#FFFFFF" data-text="#0D0D0D" data-accent="#FF2400">
+      <div class="section-container">
+        <div class="index-header">
+          <div>
+            <div class="section-kicker">[ MASTER ARCHIVE INDEX // HOVER ROW FOR LIVE PREVIEW — CLICK TO JUMP ]</div>
+            <h2 class="section-title">INDICE GENERALE &amp; MATRICE CROMATICA DI ITTEN</h2>
+          </div>
+          <div class="index-controls">
+            <span class="index-count-badge" id="active-filter-count">MOSTRANDO 25 / 25 PROGETTI</span>
+          </div>
+        </div>
+
+        <!-- Tabella Indice Interattivo -->
+        <div class="index-table-wrapper">
+          <div class="index-table-head">
+            <span class="col-seq">SEQ.</span>
+            <span class="col-code">COD.</span>
+            <span class="col-title">PROGETTO &amp; SOTTOTITOLO</span>
+            <span class="col-cat">MACRO-CATEGORIA</span>
+            <span class="col-itten">COPPIA DI ITTEN &amp; CONTRASTO</span>
+            <span class="col-mockup">ARCHETIPO</span>
+            <span class="col-action">AZIONE</span>
+          </div>
+          <div class="index-table-body" id="index-rows-container">
+            <!-- Righe generate dinamicamente da app.js -->
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         3. STREAM ESPOSITIVO DEI PROGETTI (SMART-SLICING + 3D CSS MOCKUPS)
+         ====================================================================== -->
+    <div id="projects-stream" class="projects-stream">
+      <!-- Tutte le 25 sezioni progetto vengono renderizzate qui da app.js -->
+    </div>
+
+    <!-- ======================================================================
+         4. COLOPHON TECNICO & CREDITI FINALI
+         ====================================================================== -->
+    <footer class="colophon-section" id="colophon" data-bg="#0D0D0D" data-text="#FFFFFF" data-accent="#E5FF00">
+      <div class="section-container">
+        <div class="colophon-top">
+          <div>
+            <div class="section-kicker" style="color: var(--itten-acid);">[ COLOPHON // CREDITS &amp; TECHNICAL SPECIFICATIONS ]</div>
+            <h2 class="colophon-title">NICOLA VIANELLO<br><span>VISUAL DESIGNER &amp; CREATIVE TECHNOLOGIST</span></h2>
+          </div>
+          <button class="btn-primary" data-scroll-to="#hero">
+            <span>TORNA ALL’INIZIO</span>
+            <span>↑</span>
+          </button>
+        </div>
+
+        <div class="colophon-grid">
+          <div class="colophon-col">
+            <h3>01 // DIREZIONE ARTISTICA &amp; ARCHIVIO</h3>
+            <p>
+              <strong>Nicola Vianello</strong> — Graphic Designer, Web Designer, Photographer &amp; Video Editor.<br>
+              San Donà di Piave / Venezia, Italia.<br><br>
+              Questa piattaforma riunisce i progetti di fondazione e ricerca sviluppati presso la <em>Scuola Internazionale di Grafica di Venezia</em> (Portfolio A) e le committenze per brand di orologeria, architettura, viticoltura DOCG e ospitalità lagunare (Portfolio B).
+            </p>
+          </div>
+
+          <div class="colophon-col">
+            <h3>02 // ARCHITETTURA INTERATTIVA &amp; MOCKUP</h3>
+            <p>
+              Sviluppato in <strong>Vanilla HTML5, CSS3 3D Transforms, SVG Filters e JavaScript ES6</strong> con motore fluido <strong>Lenis Smooth Scroll</strong> e orchestrazione <strong>GSAP (ScrollTrigger + Flip)</strong>.<br><br>
+              Include sistema <em>Smart-Slicing</em> non distruttivo delle tavole verticali, <em>Poster Frame 3D</em> con texture carta, <em>Cotton Business Card Deboss</em>, <em>Dark Glass Browser</em> e <em>3D Book Spread</em>.
+            </p>
+          </div>
+
+          <div class="colophon-col">
+            <h3>03 // SISTEMA TIPOGRAFICO &amp; COLORE</h3>
+            <p>
+              <strong>Display &amp; Titoli:</strong> Syne, Unbounded, Playfair Display, Cormorant Garamond.<br>
+              <strong>Body &amp; UI:</strong> Space Grotesk, Inter.<br>
+              <strong>Telemetria &amp; Metadati:</strong> IBM Plex Mono.<br><br>
+              <strong>Teoria del Colore:</strong> Morphing dinamico basato sui 7 contrasti cromatici di <em>Johannes Itten</em>.
+            </p>
+          </div>
+        </div>
+
+        <div class="colophon-bottom">
+          <span>© NICOLA VIANELLO — TUTTI I DIRITTI RISERVATI</span>
+          <span>ARCHIVIO MONOGRAFICO INTEGRALE // 25 PROGETTI</span>
+        </div>
+      </div>
+    </footer>
+
+  </main>
+
+  <!-- ========================================================================
+       FULL-BOARD HIGH-RESOLUTION LIGHTBOX MODAL (PAN & ZOOM LIBERO)
+       ======================================================================== -->
+  <div id="lightbox-modal" class="lightbox-modal" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Esplorazione Tavola Integrale ad Alta Risoluzione">
+    <div class="lightbox-backdrop" id="lightbox-backdrop"></div>
+
+    <div class="lightbox-shell">
+      <!-- Top Toolbar -->
+      <div class="lightbox-topbar">
+        <div class="lightbox-meta">
+          <span class="lightbox-code" id="lb-code">A-01</span>
+          <strong class="lightbox-title" id="lb-title">ANATOMY OF RED</strong>
+          <span class="lightbox-cat" id="lb-cat">04 // POSTER</span>
+        </div>
+
+        <!-- Controlli Pan/Zoom & Quick-Jump sulla Tavola -->
+        <div class="lightbox-controls">
+          <div class="lb-jump-group" title="Salta rapidamente a una sezione della tavola verticale">
+            <span class="lb-ctrl-label">SEZIONE TAVOLA:</span>
+            <button class="lb-btn" data-lb-jump="0">TOP (0%)</button>
+            <button class="lb-btn" data-lb-jump="0.33">MID-UPPER</button>
+            <button class="lb-btn" data-lb-jump="0.66">MID-LOWER</button>
+            <button class="lb-btn" data-lb-jump="1">BOTTOM (100%)</button>
+          </div>
+
+          <div class="lb-zoom-group">
+            <button class="lb-btn" id="lb-zoom-out" title="Riduci Zoom (-)">−</button>
+            <span class="lb-zoom-readout" id="lb-zoom-readout">100%</span>
+            <button class="lb-btn" id="lb-zoom-in" title="Aumenta Zoom (+)">+</button>
+            <button class="lb-btn" id="lb-zoom-fit" title="Adatta alla Larghezza">FIT WIDTH</button>
+            <button class="lb-btn" id="lb-zoom-reset" title="Reset Posizione">RESET</button>
+          </div>
+
+          <button class="lb-close-btn" id="lb-close-btn" aria-label="Chiudi Lightbox">
+            <span>CHIUDI [ESC]</span>
+            <span class="close-x">✕</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Area Principale Viewport Pan/Zoom + Sidebar Info -->
+      <div class="lightbox-body">
+        <div class="lightbox-canvas-viewport" id="lb-viewport">
+          <div class="lightbox-canvas-stage" id="lb-stage">
+            <img id="lb-image" src="" alt="Full Board High Resolution" draggable="false">
+          </div>
+          <div class="lightbox-hint-pill">
+            <span>🖱️ TRASCINA PER MUOVERTI (PAN) // ROTELLINA O PULSANTI PER ZOOMARE SUI DETTAGLI</span>
+          </div>
+        </div>
+
+        <aside class="lightbox-sidebar">
+          <div class="lb-sidebar-block">
+            <div class="lb-kicker">SCHEDA CURATORIALE</div>
+            <p id="lb-copy" class="lb-copy"></p>
+          </div>
+
+          <div class="lb-sidebar-block">
+            <div class="lb-kicker">SISTEMA CROMATICO DI ITTEN</div>
+            <div class="lb-itten-card" id="lb-itten-card">
+              <div class="lb-Swatch-row">
+                <div class="lb-swatch-chip" id="lb-swatch-primary"></div>
+                <div class="lb-swatch-chip" id="lb-swatch-secondary"></div>
+              </div>
+              <strong id="lb-contrast-type" class="lb-contrast-title"></strong>
+              <p id="lb-contrast-note" class="lb-contrast-note"></p>
+            </div>
+          </div>
+
+          <div class="lb-sidebar-block">
+            <div class="lb-kicker">FINESTRE DI RITAGLIO (SMART-SLICES)</div>
+            <div id="lb-slices-list" class="lb-slices-list">
+              <!-- Popolato dinamicamente per saltare ai ritagli -->
+            </div>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================
+       SCRIPTS: LENIS + GSAP (CORE, SCROLLTRIGGER, FLIP) + DATA + APP
+       ======================================================================== -->
+  <script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/Flip.min.js"></script>
+
+  <script src="projects-data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
